@@ -167,11 +167,11 @@ bool AudioEncoder::EncodeFrame(AVFrameWrapper* frame) {
 		assert((unsigned int) frame->GetFrame()->nb_samples == GetFrameSize());
 #endif
 #if SSR_USE_AVFRAME_CHANNELS
-#  if LIBAVCODEC_VERSION_MAJOR < 61
-		assert(frame->GetFrame()->channels == GetChannels());
-#  else
-		assert(frame->GetFrame()->ch_layout.nb_channels == GetChannels());
-#  endif /* LIBAVCODEC_VERSION_MAJOR < 61 */
+#if LIBAVCODEC_VERSION_MAJOR < 61
+	assert(frame->GetFrame()->channels == GetCodecContext()->channels);
+#else
+	assert(frame->GetFrame()->ch_layout.nb_channels == GetCodecContext()->ch_layout.nb_channels);
+#endif
 #endif
 #if SSR_USE_AVFRAME_SAMPLE_RATE
 		assert(frame->GetFrame()->sample_rate == GetCodecContext()->sample_rate);
