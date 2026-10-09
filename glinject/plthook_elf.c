@@ -101,6 +101,27 @@
 #elif defined __powerpc__
 #define R_JUMP_SLOT   R_PPC_JMP_SLOT
 #define R_GLOBAL_DATA R_PPC_GLOB_DAT
+#elif defined __loongarch__
+#define R_JUMP_SLOT   R_LARCH_JUMP_SLOT
+#if defined __loongarch_lp64
+#define R_GLOBAL_DATA R_LARCH_64
+#elif defined __loongarch_ilp32
+#define R_GLOBAL_DATA R_LARCH_32
+#else
+#error Unknown LoongArch ABI
+#endif /* if defined __loongarch_lp64 */
+#elif defined __mips__
+#define R_JUMP_SLOT   R_MIPS_JUMP_SLOT
+/* TODO: R_GLOBAL_DATA not defined yet. */
+#elif defined __riscv
+#define R_JUMP_SLOT   R_RISCV_JUMP_SLOT
+#if __riscv_xlen == 32
+#define R_GLOBAL_DATA R_RISCV_32
+#elif __riscv_xlen == 64
+#define R_GLOBAL_DATA R_RISCV_64
+#else
+#error Unknown RISC-V ABI
+#endif /* if __riscv_xlen == 32 */
 #elif 0 /* disabled because not tested */ && (defined __sparcv9 || defined __sparc_v9__)
 #define R_JUMP_SLOT   R_SPARC_JMP_SLOT
 #elif 0 /* disabled because not tested */ && (defined __sparc || defined __sparc__)
